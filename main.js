@@ -316,6 +316,39 @@ function constraints(filePath)
 							)
 							
 						);
+					} else if (child.left.type == 'Identifier' && funcName == 'blackListNumber') {
+						var expression = buf.substring(child.range[0], child.range[1]);
+						var rightHand = buf.substring(child.right.range[0], child.right.range[1]);
+						var areaCode = child.right.value;
+
+						console.log("BlackList: ", areaCode);
+						var phoneNumber = faker.phone.phoneNumberFormat();
+						var unformattedPhone = phoneNumber;
+						phoneNumber = phoneNumber.replace(/^\d{3}/,areaCode);
+						console.log("BlackList: ", phoneNumber);
+						
+						functionConstraints[funcName].constraints.push(
+							new Constraint(
+							{
+								ident: params[0],
+								value: "'{0}'".format(phoneNumber),
+								funcName: funcName,
+								kind: "integer",
+								operator: child.operator,
+								expression: expression
+
+							}),
+							new Constraint(
+							{
+								ident: params[0],
+								value: "'{0}'".format(unformattedPhone),
+								funcName: funcName,
+								kind: "integer",
+								operator: child.operator,
+								expression: expression
+							})
+						);
+
 						
 					} else if (child.left.type === 'CallExpression' && params.indexOf(
 						child.left.callee.object.name) > -1) {
