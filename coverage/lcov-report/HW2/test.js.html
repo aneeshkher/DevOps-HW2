@@ -15,10 +15,10 @@
 <div class="header high">
     <h1>Code coverage report for <span class="entity">HW2/test.js</span></h1>
     <h2>
-        Statements: <span class="metric">100% <small>(77 / 77)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(44 / 44)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Branches: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Functions: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">100% <small>(77 / 77)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(44 / 44)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">HW2/</a> &#187; test.js</div>
@@ -69,40 +69,7 @@
 42
 43
 44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+45</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -146,122 +113,56 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var subject = require('./subject.js')
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var mystery = require('./mystery')
 var mock = require('mock-fs');
-subject.inc('',undefined);
-subject.inc(-1,undefined);
-subject.inc(-1,"NegativeEqualEqual");
-subject.inc(1,undefined);
-subject.inc(1,"NegativeEqualEqual");
-subject.weird(6,'','','');
-subject.weird(6,'','',"NegativeNotEqual");
-subject.weird(6,'',43,"NegativeNotEqual");
-subject.weird(6,'',43,"NegativeEqualEqual");
-subject.weird(6,-1,43,"NegativeEqualEqual");
-subject.weird(6,-1,43,"strict");
-subject.weird(6,-1,43,"NegativeCallExpression");
-subject.weird(6,-1,41,"NegativeCallExpression");
-subject.weird(6,-1,41,"strict");
-subject.weird(6,1,43,"strict");
-subject.weird(8,-1,43,"strict");
-subject.weird(8,-1,43,"werw");
-subject.weird(8,-1,43,"NegativeNotEqual");
-subject.weird(8,-1,43,"NegativeEqualEqual");
-subject.weird(8,-1,41,"NegativeEqualEqual");
-subject.weird(6,-1,41,"NegativeEqualEqual");
-subject.weird(6,-1,41,"werw");
-subject.weird(6,-1,41,"NegativeNotEqual");
-subject.weird(8,-1,41,"NegativeCallExpression");
-subject.weird(8,1,41,"NegativeCallExpression");
-subject.weird(8,1,41,"NegativeEqualEqual");
-subject.weird(8,1,43,"NegativeEqualEqual");
-subject.weird(8,1,41,"strict");
-subject.weird(6,1,41,"strict");
-subject.weird(6,1,43,"werw");
-subject.weird(6,1,43,"NegativeCallExpression");
-subject.weird(6,1,41,"NegativeCallExpression");
-subject.weird(8,-1,41,"werw");
-subject.weird(8,-1,41,"strict");
-subject.weird(8,1,41,"werw");
-subject.weird(8,1,41,"NegativeNotEqual");
-subject.weird(8,-1,41,"NegativeNotEqual");
-subject.weird(6,1,43,"NegativeEqualEqual");
-subject.weird(8,1,43,"strict");
-subject.weird(8,1,43,"NegativeNotEqual");
-subject.weird(8,-1,43,"NegativeCallExpression");
-subject.weird(6,-1,43,"NegativeNotEqual");
-subject.weird(6,1,43,"NegativeNotEqual");
+mystery.inc(29,'');
+mystery.inc(29,undefined);
+mystery.inc(29,"NegativeEqualEqual");
+mystery.inc(31,undefined);
+mystery.inc(31,"NegativeEqualEqual");
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('path/emptyDir','some.path/fileExists/fakeFile');
+	mystery.fileTest('some/path/dirExists/fakeDir','some/path/fileExists/nonEmptyFile');
 mock.restore();
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('some/path/dirExists/fakeDir','some.path/fileExists/fakeFile');
+	mystery.fileTest('some/path/dirExists/fakeDir','some.path/fileExists/fakeFile');
 mock.restore();
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('some/path/dirExists','some.path/fileExists/fakeFile');
+	mystery.fileTest('some/path/dirExists/fakeDir','some/path/fileExists/emptyFile');
 mock.restore();
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('some/path/dirExists','some/path/fileExists/nonEmptyFile');
+	mystery.fileTest('some/path/dirExists','some/path/fileExists/emptyFile');
 mock.restore();
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('some/path/dirExists/fakeDir','some/path/fileExists/nonEmptyFile');
+	mystery.fileTest('path/emptyDir','some/path/fileExists/emptyFile');
 mock.restore();
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('some/path/dirExists/fakeDir','some/path/fileExists/emptyFile');
+	mystery.fileTest('path/emptyDir','some/path/fileExists/nonEmptyFile');
 mock.restore();
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('some/path/dirExists','some/path/fileExists/emptyFile');
+	mystery.fileTest('some/path/dirExists','some.path/fileExists/fakeFile');
 mock.restore();
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('path/emptyDir','some/path/fileExists/emptyFile');
+	mystery.fileTest('some/path/dirExists','some/path/fileExists/nonEmptyFile');
 mock.restore();
 mock({"some/path/dirExists":{"fileExists1":"","fileExists2":"ABCDEFG"},"path/emptyDir":{},"some/path/fileExists":{"emptyFile":"","nonEmptyFile":"DevOps"}});
-	subject.fileTest('path/emptyDir','some/path/fileExists/nonEmptyFile');
+	mystery.fileTest('path/emptyDir','some.path/fileExists/fakeFile');
 mock.restore();
-subject.normalize('');
-subject.format('','',true);
-subject.format("+1-535-664-3882",'',true);
-subject.format("+1-535-664-3882",'',false);
-subject.blackListNumber('');
+mystery.normalize('');
+mystery.format('','',false);
+mystery.format('','(###) ###-#### x###',false);
+mystery.format('','(###) ###-#### x###',{"shouldNormalize": true});
+mystery.format('','(###) ###-#### x###',true);
+mystery.format("852-420-4286",'(###) ###-#### x###',{"shouldNormalize": true});
+mystery.format("852-420-4286",'(###) ###-#### x###',true);
+mystery.format("852-420-4286",'(###) ###-#### x###',false);
+mystery.blackListNumber('919-040-6571');
+mystery.blackListNumber('021-040-6571');
 &nbsp;</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 13 2015 15:23:34 GMT-0400 (EDT)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 13 2015 19:42:16 GMT-0400 (EDT)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>

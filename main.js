@@ -7,6 +7,8 @@ var mock = require('mock-fs');
 var _ = require('underscore');
 var Random = require('random-js');
 
+var fileName;
+
 function main()
 {
 	var args = process.argv.slice(2);
@@ -16,12 +18,11 @@ function main()
 		args = ["subject.js"];
 	}
 	var filePath = args[0];
+	fileName = filePath.split('.').shift();
 
 	constraints(filePath);
 
-	generateTestCases()
-
-	fakeDemo();
+	generateTestCases(filePath);
 
 }
 
@@ -90,10 +91,11 @@ function checkFileParams (randomParams, fileWithContent, pathExists) {
 	}
 }
 
-function generateTestCases()
+function generateTestCases(filePath)
 {
 
-	var content = "var subject = require('./subject.js')\nvar mock = require('mock-fs');\n";
+	//var content = "var subject = require('./subject.js')\nvar mock = require('mock-fs');\n";
+	var content = "var {0} = require('./{0}')\nvar mock = require('mock-fs');\n".format(fileName, filePath);
 	for ( var funcName in functionConstraints )
 	{
 		var params = {};
@@ -169,13 +171,11 @@ function generateTestCases()
 							return randomParams[k];
 						}
 					).join(",");
-					var test = "subject.{0}({1})".format(funcName, args);
+					var test = "{0}.{1}({2})".format(fileName, funcName, args);
 					if (written.indexOf(test) > -1) {
 						
 					} else {
 						if (pathExists || fileWithContent) {
-							console.log("pathExists------> ", pathExists);
-							console.log("fileWithContent------> ", fileWithContent);
 							if (writtenFS.indexOf(test) > -1) {
 
 							} else {
@@ -190,7 +190,7 @@ function generateTestCases()
 								
 							}
 						} else {
-							content += "subject.{0}({1});\n".format(funcName, args );
+							content += "{0}.{1}({2});\n".format(fileName, funcName, args );
 							written.push(test);
 						}
 					}
@@ -211,9 +211,7 @@ function generateTestCases()
 
 		// Prepare function arguments.
 		var keyArray = Object.keys(params);
-		console.log("Params key array: ",keyArray);
 		var args = Object.keys(params).map( function(k) {return params[k]; }).join(",");
-		console.log("Args: ",args);
 		if( pathExists || fileWithContent )
 		{
 			//content += generateMockFsTestCases(pathExists,fileWithContent,funcName, args);
@@ -225,12 +223,12 @@ function generateTestCases()
 		else
 		{
 			// Emit simple test case.
-			var test = "subject.{0}({1})".format(funcName, args);			
+			var test = "{0}.{1}({2})".format(fileName, funcName, args);			
 			if (written.indexOf(test) > -1) {
 
 			} else {
 				written.push(test);
-				content += "subject.{0}({1});\n".format(funcName, args );
+				content += "{0}.{1}({2});\n".format(fileName, funcName, args );
 			}
 		}
 
@@ -260,7 +258,7 @@ function generateMockFsTestCases (pathExists,fileWithContent,funcName,args)
 		+
 	");\n";
 
-	testCase += "\tsubject.{0}({1});\n".format(funcName, args );
+	testCase += "\t{0}.{1}({2});\n".format(fileName, funcName, args );
 	testCase+="mock.restore();\n";
 	return testCase;
 }
@@ -671,40 +669,84 @@ function constraints(filePath)
 					}
 				}
 
-				//if( child.type == "CallExpression" &&
-				//	 child.callee.property &&
-				//	 child.callee.property.name =="existsSync")
-				//{
-				//	for( var p =0; p < params.length; p++ )
-				//	{
-				//		if( child.arguments[0].name == params[p] )
-				//		{
-				//			var dir = __dirname;
-				//			var fakeDir = dir.concat("/fakeDir");
-				//			functionConstraints[funcName].constraints.push( 
-				//				new Constraint(
-				//				{
-				//					ident: params[p],
-				//					// A fake path to a file
-				//					value:  "'{0}'".format(dir),
-				//					funcName: funcName,
-				//					kind: "fileExists",
-				//					operator : child.operator,
-				//					expression: expression
-				//				}),
-				//				new Constraint(
-				//				{
-				//					ident: params[p],
-				//					value: "'{0}'".format(fakeDir),
-				//					funcName: funcName,
-				//					kind: "fileExists",
-				//					operator: child.operator,
-				//					expression: expression
-				//				})
-				//			);
-				//		}
-				//	}
-				//}
+				if( child.type == "CallExpression" &&
+					 child.callee.property &&
+					 child.callee.property.name =="existsSync")
+				{
+					for( var p =0; p < params.length; p++ )
+					{
+						if( child.arguments[0].name == params[p] )
+						{	
+							if (p == 0) {
+								var dir = "some/path/dirExists";
+								var emptyDir = "path/emptyDir";
+								var fakeDir = "some/path/dirExists/fakeDir";
+								functionConstraints[funcName].constraints.push( 
+									new Constraint(
+									{
+										ident: params[p],
+										value:  "'{0}'".format(dir),
+										funcName: funcName,
+										kind: "fileExists",
+										operator : child.operator,
+										expression: expression
+									}),
+									new Constraint(
+									{
+										ident: params[p],
+										value: "'{0}'".format(emptyDir),
+										funcName: funcName,
+										kind: "fileExists",
+										operator: child.operator,
+										expression: expression
+									}),
+									new Constraint(
+									{
+										ident: params[p],
+										value: "'{0}'".format(fakeDir),
+										funcName: funcName,
+										kind: "fileExists",
+										operator: child.operator,
+										expression: expression
+									})
+								);
+							} else {
+								var file = "some/path/fileExists/nonEmptyFile";
+								var emptyFile = "some/path/fileExists/emptyFile";
+								var fakeFile = "some.path/fileExists/fakeFile";
+								functionConstraints[funcName].constraints.push( 
+									new Constraint(
+									{
+										ident: params[p],
+										value:  "'{0}'".format(file),
+										funcName: funcName,
+										kind: "fileWithContent",
+										operator : child.operator,
+										expression: expression
+									}),
+									new Constraint(
+									{
+										ident: params[p],
+										value: "'{0}'".format(emptyFile),
+										funcName: funcName,
+										kind: "fileWithContent",
+										operator: child.operator,
+										expression: expression
+									}),
+									new Constraint(
+									{
+										ident: params[p],
+										value: "'{0}'".format(fakeFile),
+										funcName: funcName,
+										kind: "fileWithContent",
+										operator: child.operator,
+										expression: expression
+									})
+								);
+							}
+						}
+					}
+				}
 
 			});
 
