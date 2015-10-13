@@ -381,9 +381,9 @@ function constraints(filePath)
 					}
 
 				} else if (child.type === 'UnaryExpression' && child.operator == "!") {
-					if (child.argument.type === 'Identifier' && params.indexOf(child.argument.name) > -1) {
+					if (child.argument.type === 'Identifier' 
+						&& params.indexOf(child.argument.name) > -1) {
 						var expression = buf.substring(child.range[0], child.range[1]);
-
 						functionConstraints[funcName].constraints.push(
 							new Constraint(
 							{
@@ -403,7 +403,38 @@ function constraints(filePath)
 								operator: child.operator,
 								expression: expression
 							})
+							
 						);
+					}
+					if (child.argument.type === 'MemberExpression' && 
+						params.indexOf(child.argument.object.name) > -1) {
+						
+						var placeholder = child.argument.property.name;
+						var optionsTrue = "\{\"{0}\": true\}".format(placeholder);
+						var optionsFalse = "\{\"{0}\": true\}".format(placeholder);
+
+						var expression = buf.substring(child.range[0], child.range[1]);
+
+						functionConstraints[funcName].constraints.push(
+							new Constraint(
+							{
+								ident: child.argument.object.name,
+								value: optionsTrue,
+								funcName: funcName,
+								kind: "integer",
+								operator: child.operator,
+								expression: expression
+							}),
+							new Constraint(
+							{
+								ident: child.argument.object.name,
+								value: optionsFalse,
+								kind: "integer",
+								operator: child.operator,
+								expression: expression
+							})
+						)
+
 					}
 				} else if (child.type === 'ForStatement') {
 					if (child.init.declarations.length > 0) {
@@ -411,17 +442,45 @@ function constraints(filePath)
 							dec = child.init.declarations[index];
 							if (dec.init.hasOwnProperty("object")) {
 								if (params.indexOf(dec.init.object.name) > -1) {
+									var phoneNumber = faker.phone.phoneNumberFormat();
 									functionConstraints[funcName].constraints.push(
 										new Constraint(
 										{
 											ident: dec.init.object.name,
-											value: "\"+1-535-664-3882\"",
+											value: "\"{0}\"".format(phoneNumber),
 											funcName: funcName,
 											kind: "integer",
 											operator: "=",
 											expression: undefined
 										})
 									);
+								}
+							}
+						}
+					}
+
+					if (child.body.body.length > 0) {
+						for (var index in child.body.body) {
+							var body = child.body.body[index];
+							var right = body.expression.right;
+							if (right.type == "CallExpression") {
+								if (right.callee.hasOwnProperty("object")) {
+									if (params.indexOf(right.callee.object.name) > -1) {
+										var expression = buf.substring(child.range[0], 
+											child.range[1])
+										var format = faker.phone.phoneFormats();
+										functionConstraints[funcName].constraints.push(
+											new Constraint(
+											{
+												ident: right.callee.object.name,
+												value: "'{0}'".format(format),
+												funcName: funcName,
+												kind: "integer",
+												operator: "'{0}'".format(body.expression.operator),
+												expression: expression
+											})
+										)
+									}
 								}
 							}
 						}
@@ -565,41 +624,6 @@ function constraints(filePath)
 					}
 				}
 
-				//if( child.type == "CallExpression" &&
-				//	 child.callee.property &&
-				//	 child.callee.property.name =="existsSync")
-				//{
-				//	for( var p =0; p < params.length; p++ )
-				//	{
-				//		if( child.arguments[0].name == params[p] )
-				//		{
-				//			var dir = __dirname;
-				//			var fakeDir = dir.concat("/fakeDir");
-				//			functionConstraints[funcName].constraints.push( 
-				//				new Constraint(
-				//				{
-				//					ident: params[p],
-				//					// A fake path to a file
-				//					value:  "'{0}'".format(dir),
-				//					funcName: funcName,
-				//					kind: "fileExists",
-				//					operator : child.operator,
-				//					expression: expression
-				//				}),
-				//				new Constraint(
-				//				{
-				//					ident: params[p],
-				//					value: "'{0}'".format(fakeDir),
-				//					funcName: funcName,
-				//					kind: "fileExists",
-				//					operator: child.operator,
-				//					expression: expression
-				//				})
-				//			);
-				//		}
-				//	}
-				//}
-
 				if( child.type == "CallExpression" &&
 					 child.callee.property &&
 					 child.callee.property.name =="readdirSync")
@@ -646,6 +670,42 @@ function constraints(filePath)
 						}
 					}
 				}
+
+				//if( child.type == "CallExpression" &&
+				//	 child.callee.property &&
+				//	 child.callee.property.name =="existsSync")
+				//{
+				//	for( var p =0; p < params.length; p++ )
+				//	{
+				//		if( child.arguments[0].name == params[p] )
+				//		{
+				//			var dir = __dirname;
+				//			var fakeDir = dir.concat("/fakeDir");
+				//			functionConstraints[funcName].constraints.push( 
+				//				new Constraint(
+				//				{
+				//					ident: params[p],
+				//					// A fake path to a file
+				//					value:  "'{0}'".format(dir),
+				//					funcName: funcName,
+				//					kind: "fileExists",
+				//					operator : child.operator,
+				//					expression: expression
+				//				}),
+				//				new Constraint(
+				//				{
+				//					ident: params[p],
+				//					value: "'{0}'".format(fakeDir),
+				//					funcName: funcName,
+				//					kind: "fileExists",
+				//					operator: child.operator,
+				//					expression: expression
+				//				})
+				//			);
+				//		}
+				//	}
+				//}
+
 			});
 
 			console.log( functionConstraints[funcName]);
