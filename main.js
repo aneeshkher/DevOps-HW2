@@ -95,7 +95,7 @@ function generateTestCases(filePath)
 {
 
 	//var content = "var subject = require('./subject.js')\nvar mock = require('mock-fs');\n";
-	var content = "var {0} = require('./{0}')\nvar mock = require('mock-fs');\n".format(fileName, filePath);
+	var content = "var {0} = require('./{1}')\nvar mock = require('mock-fs');\n".format(fileName, filePath);
 	for ( var funcName in functionConstraints )
 	{
 		var params = {};
