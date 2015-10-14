@@ -448,7 +448,7 @@ function constraints(filePath)
 						
 						var placeholder = child.argument.property.name;
 						var optionsTrue = "\{\"{0}\": true\}".format(placeholder);
-						var optionsFalse = "\{\"{0}\": true\}".format(placeholder);
+						var optionsFalse = "\{\"{0}\": false\}".format(placeholder);
 
 						var expression = buf.substring(child.range[0], child.range[1]);
 
