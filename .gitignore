@@ -3,3 +3,4 @@ my*
 *.txt
 coverage
 *.swp
+test.js
