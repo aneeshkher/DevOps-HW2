@@ -13,14 +13,6 @@ function main()
 {
 	var args = process.argv.slice(2);
 
-	var a = "\"212\"";
-	var b = a.split('"');
-	console.log("B: ", b);
-
-	var c = "212";
-	var d = c.split('"');
-	console.log("D: ", d);
-
 	if( args.length == 0 )
 	{
 		args = ["subject.js"];
@@ -338,9 +330,6 @@ function constraints(filePath)
 						else if ((a.length == 2) && a[1] == '')
 							areaCode = a[0];
 
-						console.log("TEST EXPRESSION: ", expression);
-						console.log("TEST AREA CODE: ", areaCode);
-
 						var phoneNumber = faker.phone.phoneNumberFormat();
 						var unformattedPhone = phoneNumber;
 						phoneNumber = phoneNumber.replace(/^\d{3}/,areaCode);
@@ -405,10 +394,7 @@ function constraints(filePath)
 						child.left.callee.object.name) > -1) {
 						var expression = buf.substring(child.range[0], child.range[1]);
 						var rightHand = buf.substring(child.right.range[0], child.right.range[1]);
-
-						console.log("Expr: ", expression);
-						console.log("Right hand: ", rightHand);
-
+						
 						functionConstraints[funcName].constraints.push(
 							new Constraint(
 							{
@@ -635,10 +621,7 @@ function constraints(filePath)
 					{
 						if( child.arguments[0].name == params[p] )
 						{
-							//var file = __filename;
-							//var dir = __dirname;
-							//var emptyFile = dir.concat("/emptyFile");
-							//var fakeFile = dir.concat("/fakeFile");
+							
 							var file = "some/path/fileExists/nonEmptyFile";
 							var emptyFile = "some/path/fileExists/emptyFile";
 							var fakeFile = "some.path/fileExists/fakeFile";
@@ -683,9 +666,7 @@ function constraints(filePath)
 					{
 						if( child.arguments[0].name == params[p] )
 						{
-							//var dir = __dirname;
-							//var emptyDir = dir.concat("/empty");
-							//var fakeDir = dir.concat("/fakeDir"); 
+							
 							var dir = "some/path/dirExists";
 							var emptyDir = "path/emptyDir";
 							var fakeDir = "some/path/dirExists/fakeDir";
