@@ -5,4 +5,4 @@
 ## Coverage report screenshot  
   
 
-
+![CoverageReport](https://github.com/aneeshkher/DevOps-HW2/blob/master/CoverageReport.png)
