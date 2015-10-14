@@ -314,6 +314,14 @@ function constraints(filePath)
 							)
 							
 						);
+					} else if (child.left.type === 'Identifier' && params.indexOf( child.left.name ) < 0)  {
+
+						var expression = buf.substring(child.range[0], child.range[1]);
+						var rightHand = buf.substring(child.right.range[0], child.right.range[1]);
+
+						console.log("TEST EXPRESSION: ", expression);
+						console.log("TEST RIGHT HAND: ", rightHand);
+
 					} else if (child.left.type == 'Identifier' && funcName == 'blackListNumber') {
 						var expression = buf.substring(child.range[0], child.range[1]);
 						var rightHand = buf.substring(child.right.range[0], child.right.range[1]);
