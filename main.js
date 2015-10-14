@@ -13,6 +13,14 @@ function main()
 {
 	var args = process.argv.slice(2);
 
+	var a = "\"212\"";
+	var b = a.split('"');
+	console.log("B: ", b);
+
+	var c = "212";
+	var d = c.split('"');
+	console.log("D: ", d);
+
 	if( args.length == 0 )
 	{
 		args = ["subject.js"];
@@ -314,6 +322,51 @@ function constraints(filePath)
 							)
 							
 						);
+					} else if (child.left.type == 'Identifier' && params.indexOf( child.left.name ) < 0)  {
+
+						var expression = buf.substring(child.range[0], child.range[1]);
+						var rightHand = buf.substring(child.right.range[0], child.right.range[1]);
+						
+						var a = rightHand.split('"');
+						var areaCode;
+						if (a.length == 1)
+							areaCode = a[0];
+						else if (a.length == 3)
+							areaCode = a[1];
+						else if ((a.length == 2) && a[0] == '')
+							areaCode = a[1];
+						else if ((a.length == 2) && a[1] == '')
+							areaCode = a[0];
+
+						console.log("TEST EXPRESSION: ", expression);
+						console.log("TEST AREA CODE: ", areaCode);
+
+						var phoneNumber = faker.phone.phoneNumberFormat();
+						var unformattedPhone = phoneNumber;
+						phoneNumber = phoneNumber.replace(/^\d{3}/,areaCode);
+
+						functionConstraints[funcName].constraints.push(
+							new Constraint(
+							{
+								ident: params[0],
+								value: "'{0}'".format(phoneNumber),
+								funcName: funcName,
+								kind: "integer",
+								operator: child.operator,
+								expression: expression
+
+							}),
+							new Constraint(
+							{
+								ident: params[0],
+								value: "'{0}'".format(unformattedPhone),
+								funcName: funcName,
+								kind: "integer",
+								operator: child.operator,
+								expression: expression
+							})
+						);
+
 					} else if (child.left.type == 'Identifier' && funcName == 'blackListNumber') {
 						var expression = buf.substring(child.range[0], child.range[1]);
 						var rightHand = buf.substring(child.right.range[0], child.right.range[1]);
